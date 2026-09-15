@@ -1,0 +1,8 @@
+{
+  "name": "lili-sincronia",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Prototipo de coordinacion quirurgica",
+  "scripts": {"build":"node scripts/build.cjs","sync":"node scripts/sync.cjs"},
+  "engines": {"node": ">=22"}
+}

@@ -1,0 +1,12 @@
+node_modules/
+dist/
+outputs/
+work/
+.env
+.env.*
+*.log
+*.xlsx
+*.xls
+*.csv
+*.sqlite
+*.db
