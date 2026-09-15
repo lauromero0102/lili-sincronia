@@ -1,0 +1,1 @@
+const anesthesiaTypes=[["BN","BLOQ NERV"],["BS","BLOQ NERV - SED LOC"],["EP","EPIDURAL"],["GE","GENERAL"],["GR","GEN - REGIO"],["IV","BLOQ IV"],["LO","LOCAL"],["LS","LOCAL - SED"],["PA","PERI - ANALG"],["PR","PERI - RAQUID"],["RA","RAQUIDEA"],["SE","SEDACION"]].sort((a,b)=>a[1].localeCompare(b[1],'es',{sensitivity:'base'}));
