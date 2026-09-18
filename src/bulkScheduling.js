@@ -49,7 +49,12 @@ function saveImportedCases(){localStorage.setItem(importedCasesStorageKey,JSON.s
 function restoreImportedCases(){
  try{const stored=JSON.parse(localStorage.getItem(importedCasesStorageKey)||'[]');if(!Array.isArray(stored)||!stored.length)return;stored.forEach(item=>cases.push({...item,order:seq++,assignment:null,assignedDate:null,startMinute:null,endMinute:null}));bulkAudit.imported=stored.length}catch(error){console.warn('No fue posible restaurar las solicitudes importadas.',error)}
 }
-render=function(slots,sorted){baseRenderWithOverrides(slots,sorted);$('total').textContent=cases.length;$('assigned').textContent=cases.filter(item=>item.assignment).length;$('pending').textContent=cases.filter(item=>!item.assignment).length;renderWeeklyReport()};
+function renderAllCases(){
+ const all=[...cases].sort((a,b)=>(a.assignedDate||a.date).localeCompare(b.assignedDate||b.date)||a.site.localeCompare(b.site)||rank[a.status]-rank[b.status]||a.order-b.order);
+ const heading=$('fullListTitle');if(heading)heading.textContent=`Programacion completa (${all.length})`;
+ $('queue').innerHTML=all.length?all.map(c=>`<tr><td><span class="tag ${c.status}">${c.status}</span></td><td>${esc(c.name)}<br><small>${esc(c.episode)} · ${esc(c.doc)}</small></td><td>${esc(c.specialty)}<br><small>${esc(c.anesthesia)} · CUPS ${esc(c.cups)}</small></td><td>${c.minutes} min</td><td>${c.assignment?`<strong>${esc(c.assignedDate)}</strong><br>${esc(c.site)} · ${esc(c.assignment)}<br><strong>${caseTimes(c)}</strong>`:'<span style="color:#a02929">Pendiente</span>'}</td><td><button class="danger" onclick="dropCase(${c.order})">Quitar</button></td></tr>`).join(''):'<tr><td colspan="6" class="empty">No hay solicitudes cargadas.</td></tr>';
+}
+render=function(slots,sorted){baseRenderWithOverrides(slots,sorted);$('total').textContent=cases.length;$('assigned').textContent=cases.filter(item=>item.assignment).length;$('pending').textContent=cases.filter(item=>!item.assignment).length;renderAllCases();renderWeeklyReport()};
 
 async function importWorkbook(){
  const input=$('patientWorkbook'),status=$('importStatus'),file=input.files&&input.files[0];if(!file){status.textContent='Seleccione primero un archivo Excel.';return}if(typeof XLSX==='undefined'){status.textContent='No fue posible cargar el lector de Excel. Revise la conexion e intente de nuevo.';return}
