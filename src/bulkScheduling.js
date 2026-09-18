@@ -50,8 +50,8 @@ function restoreImportedCases(){
  try{const stored=JSON.parse(localStorage.getItem(importedCasesStorageKey)||'[]');if(!Array.isArray(stored)||!stored.length)return;stored.forEach(item=>cases.push({...item,order:seq++,assignment:null,assignedDate:null,startMinute:null,endMinute:null}));bulkAudit.imported=stored.length}catch(error){console.warn('No fue posible restaurar las solicitudes importadas.',error)}
 }
 function renderAllCases(){
- const all=[...cases].sort((a,b)=>(a.assignedDate||a.date).localeCompare(b.assignedDate||b.date)||a.site.localeCompare(b.site)||rank[a.status]-rank[b.status]||a.order-b.order);
- const heading=$('fullListTitle');if(heading)heading.textContent=`Programacion completa (${all.length})`;
+ const site=$('site').value,all=cases.filter(item=>item.site===site).sort((a,b)=>(a.assignedDate||a.date).localeCompare(b.assignedDate||b.date)||rank[a.status]-rank[b.status]||a.order-b.order);
+ const heading=$('fullListTitle');if(heading)heading.textContent=`Programacion completa · ${site} (${all.length})`;
  $('queue').innerHTML=all.length?all.map(c=>`<tr><td><span class="tag ${c.status}">${c.status}</span></td><td>${esc(c.name)}<br><small>${esc(c.episode)} · ${esc(c.doc)}</small></td><td>${esc(c.specialty)}<br><small>${esc(c.anesthesia)} · CUPS ${esc(c.cups)}</small></td><td>${c.minutes} min</td><td>${c.assignment?`<strong>${esc(c.assignedDate)}</strong><br>${esc(c.site)} · ${esc(c.assignment)}<br><strong>${caseTimes(c)}</strong>`:'<span style="color:#a02929">Pendiente</span>'}</td><td><button class="danger" onclick="dropCase(${c.order})">Quitar</button></td></tr>`).join(''):'<tr><td colspan="6" class="empty">No hay solicitudes cargadas.</td></tr>';
 }
 render=function(slots,sorted){baseRenderWithOverrides(slots,sorted);$('total').textContent=cases.length;$('assigned').textContent=cases.filter(item=>item.assignment).length;$('pending').textContent=cases.filter(item=>!item.assignment).length;renderAllCases();renderWeeklyReport()};
