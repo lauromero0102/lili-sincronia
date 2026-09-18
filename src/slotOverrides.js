@@ -32,7 +32,7 @@ specialistAvailable=function(c,s){
 function overrideSelects(room,shift,date){
  const manual=getSlotOverride(date,room,shift),locked=shift==='Noche',specialtyOptions=specialties.map(value=>`<option value="${esc(value)}" ${manual.specialty===value?'selected':''}>${esc(value)}</option>`).join(''),specialistOptions=specialists.map(value=>`<option value="${esc(value)}" ${manual.specialist===value?'selected':''}>${esc(value)}</option>`).join('');
  if(locked)return '<div class="slot-locked" title="La franja nocturna permanece reservada para urgencias">Asignacion fija de urgencias</div>';
- return `<div class="slot-overrides"><select aria-label="Especialidad manual" onchange="setSlotOverride('${date}','${room}','${shift}','specialty',this.value)"><option value="">Especialidad predeterminada</option>${specialtyOptions}</select><select aria-label="Especialista manual" onchange="setSlotOverride('${date}','${room}','${shift}','specialist',this.value)"><option value="">Especialista predeterminado</option>${specialistOptions}</select></div>`;
+ return `<div class="slot-overrides"><select aria-label="Especialidad manual" onchange="setSlotOverride('${date}','${room}','${shift}','specialty',this.value)"><option value="">Especialidad</option>${specialtyOptions}</select><select aria-label="Especialista manual" onchange="setSlotOverride('${date}','${room}','${shift}','specialist',this.value)"><option value="">Especialista</option>${specialistOptions}</select></div>`;
 }
 
 cellContent=function(room,shift,dayIndex,weekDate,slots){
