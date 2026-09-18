@@ -41,8 +41,8 @@ activeSlots=function(){
 cellContent=function(room,shift,dayIndex,weekDate,slots){
  if(shift!=='Noche')return cellContentWithDayOverrides(room,shift,dayIndex,weekDate,slots);
  const site=$('site').value,active=selectedNightRooms(site,weekDate).includes(room);
- const slot=weekDate===selectedDate()?slots.find(item=>item.room===room&&item.shift==='Noche'):null;
- const items=slot?slot.items:[];
+ const slot=slots.find(item=>item.room===room&&item.shift==='Noche');
+ const items=typeof scheduledItemsFor==='function'?scheduledItemsFor(site,weekDate,room,'Noche'):(weekDate===selectedDate()&&slot?slot.items:[]);
  return `<label class="night-room-toggle ${active?'active':''}"><input type="checkbox" ${active?'checked':''} onchange="toggleNightRoom('${weekDate}','${room}',this.checked)"><span>${active?'Sala activa':'Activar sala'}</span></label>${active?'<strong class="night-owner">URGENCIAS / EMERGENCIAS</strong>':''}${items.map(c=>`<span class="matrix-case emergente">${esc(c.name)} · ${c.minutes} min<br>Inicio / fin: ${caseTimes(c)}</span>`).join('')}`;
 };
 
