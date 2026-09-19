@@ -34,3 +34,9 @@ Los cambios realizados en formularios no son commits y no se envian a GitHub.
 Una version multiusuario con persistencia requiere API, base de datos y acceso autenticado.
 Los catalogos de especialistas incluidos seran visibles en una publicacion publica.
 La asignacion actual es un prototipo; los objetivos de urgencia no constituyen garantias operativas.
+
+### Importacion e informe semanal
+
+La importacion de Excel reconoce la columna `Procedimiento cancelado`. Registre `Sí`, `Cancelado/a`, `Diferido/a` o `Reprogramado/a` cuando aplique; los demas valores se interpretan como no cancelados. Estos registros no ocupan una sala y alimentan el indicador de cancelacion/diferimiento: procedimientos cancelados o diferidos sobre solicitudes registradas en la semana.
+
+El boton de exportacion genera un CSV sin identificadores de pacientes y copia una fila compatible con la hoja `Datos semanales` del tablero de Google Sheets. Incluye la tasa, el numero de procedimientos cancelados y el total de solicitudes que componen el indicador.
